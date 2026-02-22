@@ -1,15 +1,3 @@
-/**
- * ╔═══════════════════════════════════════════════════════════════════════════╗
- * ║                   CONTEXT SWITCH OVERLAY COMPONENT                        ║
- * ╠═══════════════════════════════════════════════════════════════════════════╣
- * ║ Visual overlay that appears during context switches.                       ║
- * ║ Emphasizes the overhead cost of switching between processes.              ║
- * ║                                                                           ║
- * ║ EDUCATIONAL PURPOSE:                                                       ║
- * ║ In real systems, context switches happen in microseconds, but they        ║
- * ║ DO have a cost. This visualization makes that cost visible.               ║
- * ╚═══════════════════════════════════════════════════════════════════════════╝
- */
 
 import React from 'react';
 import { motion } from 'framer-motion';
@@ -25,16 +13,16 @@ import { motion } from 'framer-motion';
  */
 function ContextSwitchOverlay({ info }) {
   const { from, to, overhead } = info;
-  
+
   return (
-    <motion.div 
+    <motion.div
       className="context-switch-overlay"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.2 }}
     >
-      <motion.div 
+      <motion.div
         className="overlay-content"
         initial={{ scale: 0.8, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
@@ -42,7 +30,7 @@ function ContextSwitchOverlay({ info }) {
         transition={{ duration: 0.3 }}
       >
         <div className="overlay-header">
-          <motion.span 
+          <motion.span
             className="switch-icon"
             animate={{ rotate: 360 }}
             transition={{ duration: 0.6, repeat: 1 }}
@@ -51,10 +39,10 @@ function ContextSwitchOverlay({ info }) {
           </motion.span>
           <h2>Context Switch</h2>
         </div>
-        
+
         <div className="switch-visualization">
           {/* Process being switched out */}
-          <motion.div 
+          <motion.div
             className="switch-process out"
             initial={{ x: 0, opacity: 1 }}
             animate={{ x: -50, opacity: 0.5 }}
@@ -63,7 +51,7 @@ function ContextSwitchOverlay({ info }) {
             <span className="direction">OUT</span>
             {from ? (
               <>
-                <span 
+                <span
                   className="process-color"
                   style={{ backgroundColor: from.color }}
                 />
@@ -73,11 +61,11 @@ function ContextSwitchOverlay({ info }) {
               <span className="process-name idle">Idle</span>
             )}
           </motion.div>
-          
+
           {/* Switch arrow */}
-          <motion.div 
+          <motion.div
             className="switch-arrow"
-            animate={{ 
+            animate={{
               scale: [1, 1.2, 1],
               opacity: [0.5, 1, 0.5]
             }}
@@ -85,45 +73,41 @@ function ContextSwitchOverlay({ info }) {
           >
             ⟶
           </motion.div>
-          
+
           {/* Process being switched in */}
-          <motion.div 
+          <motion.div
             className="switch-process in"
             initial={{ x: 50, opacity: 0.5 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.3, delay: 0.2 }}
           >
             <span className="direction">IN</span>
-            <span 
+            <span
               className="process-color"
               style={{ backgroundColor: to.color }}
             />
             <span className="process-name">{to.name}</span>
           </motion.div>
         </div>
-        
+
         {/* What's happening explanation */}
         <div className="switch-details">
           <div className="detail-item">
-            <span className="detail-icon">💾</span>
-            <span>Saving CPU registers & state</span>
+            <span>Saving CPU registers &amp; state</span>
           </div>
           <div className="detail-item">
-            <span className="detail-icon">📋</span>
             <span>Updating Process Control Block</span>
           </div>
           <div className="detail-item">
-            <span className="detail-icon">🔄</span>
             <span>Loading new process state</span>
           </div>
           <div className="detail-item">
-            <span className="detail-icon">🗑️</span>
             <span>Flushing TLB cache</span>
           </div>
         </div>
-        
+
         {/* Overhead cost */}
-        <motion.div 
+        <motion.div
           className="overhead-badge"
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
@@ -132,11 +116,11 @@ function ContextSwitchOverlay({ info }) {
           <span className="overhead-label">Overhead Cost</span>
           <span className="overhead-value">{overhead} time unit{overhead > 1 ? 's' : ''}</span>
         </motion.div>
-        
+
         {/* Educational note */}
         <p className="switch-note">
-          ⚠️ This is "wasted" time - the CPU is doing housekeeping, not useful work.
-          Too many context switches = poor performance!
+          This is overhead time — the CPU is doing housekeeping, not useful work.
+          Too many context switches degrade performance.
         </p>
       </motion.div>
     </motion.div>
