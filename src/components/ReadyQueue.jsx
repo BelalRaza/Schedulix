@@ -1,15 +1,3 @@
-/**
- * ╔═══════════════════════════════════════════════════════════════════════════╗
- * ║                        READY QUEUE COMPONENT                              ║
- * ╠═══════════════════════════════════════════════════════════════════════════╣
- * ║ Visualizes the Ready Queue - processes waiting for CPU time.              ║
- * ║                                                                           ║
- * ║ For MLFQ: Shows multiple priority queues stacked vertically.              ║
- * ║ For other algorithms: Shows a single FIFO queue.                          ║
- * ║                                                                           ║
- * ║ Processes are color-coded YELLOW to indicate Ready state.                 ║
- * ╚═══════════════════════════════════════════════════════════════════════════╝
- */
 
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -25,18 +13,18 @@ import ProcessBlock from './ProcessBlock';
  */
 function ReadyQueue({ processes, algorithm, onKillProcess }) {
   const isMLFQ = algorithm === 'MLFQ';
-  
+
   // For MLFQ, group processes by queue level
   const queueLevels = isMLFQ ? [
     { level: 0, label: 'Queue 0 (High Priority)', quantum: 4 },
     { level: 1, label: 'Queue 1 (Medium Priority)', quantum: 8 },
     { level: 2, label: 'Queue 2 (Low Priority)', quantum: 16 }
   ] : null;
-  
+
   const getProcessesForLevel = (level) => {
     return processes.filter(p => (p.queueLevel || 0) === level);
   };
-  
+
   return (
     <div className="ready-queue">
       <div className="queue-header">
@@ -48,7 +36,7 @@ function ReadyQueue({ processes, algorithm, onKillProcess }) {
           {isMLFQ ? 'Multi-Level Feedback Queues' : 'Processes waiting for CPU'}
         </span>
       </div>
-      
+
       <div className={`queue-content ${isMLFQ ? 'mlfq' : 'single'}`}>
         {isMLFQ ? (
           // MLFQ - Multiple priority queues
@@ -56,7 +44,7 @@ function ReadyQueue({ processes, algorithm, onKillProcess }) {
             {queueLevels.map((q, idx) => {
               const levelProcesses = getProcessesForLevel(q.level);
               return (
-                <motion.div 
+                <motion.div
                   key={q.level}
                   className={`mlfq-level level-${q.level}`}
                   initial={{ opacity: 0, x: -20 }}
@@ -81,7 +69,7 @@ function ReadyQueue({ processes, algorithm, onKillProcess }) {
                           />
                         ))
                       ) : (
-                        <motion.div 
+                        <motion.div
                           className="empty-queue"
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 0.5 }}
@@ -139,12 +127,11 @@ function ReadyQueue({ processes, algorithm, onKillProcess }) {
                   </div>
                 </>
               ) : (
-                <motion.div 
+                <motion.div
                   className="empty-queue-message"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                 >
-                  <span className="empty-icon">—</span>
                   <span>Queue is empty</span>
                   <span className="empty-hint">Add processes to begin</span>
                 </motion.div>
@@ -153,17 +140,16 @@ function ReadyQueue({ processes, algorithm, onKillProcess }) {
           </div>
         )}
       </div>
-      
-      {/* Educational note based on algorithm */}
+
       <div className="queue-education">
         {algorithm === 'FCFS' && (
-          <p><strong>FCFS:</strong> First process in queue runs next. Watch for the Convoy Effect!</p>
+          <p><strong>FCFS:</strong> First process in queue runs next. Watch for the Convoy Effect.</p>
         )}
         {algorithm === 'SJF' && (
-          <p><strong>SJF:</strong> Shortest remaining time runs next. May cause starvation!</p>
+          <p><strong>SJF:</strong> Shortest remaining time runs next. May cause starvation.</p>
         )}
         {algorithm === 'SRTF' && (
-          <p><strong>SRTF:</strong> Preemptive SJF - can interrupt for shorter jobs.</p>
+          <p><strong>SRTF:</strong> Preemptive SJF — can interrupt for shorter jobs.</p>
         )}
         {algorithm === 'RR' && (
           <p><strong>Round Robin:</strong> Each process gets a turn, then moves to back.</p>
