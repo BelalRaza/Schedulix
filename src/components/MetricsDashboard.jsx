@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
  */
 function MetricCard({ label, value, unit, description, trend, color }) {
   return (
-    <motion.div 
+    <motion.div
       className={`metric-card ${color || ''}`}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -44,7 +44,7 @@ function ProcessTable({ processes }) {
       </div>
     );
   }
-  
+
   return (
     <div className="process-table">
       <table>
@@ -69,7 +69,7 @@ function ProcessTable({ processes }) {
                 exit={{ opacity: 0, x: 20 }}
               >
                 <td className="process-name">
-                  <span 
+                  <span
                     className="color-dot"
                     style={{ backgroundColor: process.color }}
                   />
@@ -85,7 +85,7 @@ function ProcessTable({ processes }) {
                 <td>{process.waitingTime.toFixed(1)}</td>
                 <td>
                   <div className="mini-progress">
-                    <div 
+                    <div
                       className="mini-progress-bar"
                       style={{ width: `${process.progress}%` }}
                     />
@@ -106,10 +106,7 @@ function ProcessTable({ processes }) {
 function CompletionLog({ completions }) {
   return (
     <div className="completion-log">
-      <h4>
-        <span className="log-icon">✅</span>
-        Recently Completed
-      </h4>
+      <h4>Recently Completed</h4>
       <AnimatePresence mode="popLayout">
         {completions.length > 0 ? (
           <ul>
@@ -120,7 +117,7 @@ function CompletionLog({ completions }) {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, height: 0 }}
               >
-                <span 
+                <span
                   className="color-dot"
                   style={{ backgroundColor: process.color }}
                 />
@@ -150,13 +147,11 @@ function CompletionLog({ completions }) {
  */
 function MetricsDashboard({ metrics, processes, completedProcesses, recentCompletions }) {
   const cpuUtil = parseFloat(metrics.cpuUtilization) || 0;
-  
+
   return (
     <div className="metrics-dashboard">
-      <h2>
-        Live Metrics
-      </h2>
-      
+      <h2>Live Metrics</h2>
+
       {/* Primary Metrics */}
       <section className="metrics-grid">
         <MetricCard
@@ -166,7 +161,7 @@ function MetricsDashboard({ metrics, processes, completedProcesses, recentComple
           description="Time spent in ready queue"
           color="metric-waiting"
         />
-        
+
         <MetricCard
           label="Avg Turnaround"
           value={metrics.avgTurnaroundTime}
@@ -174,7 +169,7 @@ function MetricsDashboard({ metrics, processes, completedProcesses, recentComple
           description="Arrival to completion"
           color="metric-turnaround"
         />
-        
+
         <MetricCard
           label="CPU Utilization"
           value={metrics.cpuUtilization}
@@ -182,7 +177,7 @@ function MetricsDashboard({ metrics, processes, completedProcesses, recentComple
           description="How busy is the CPU"
           color={cpuUtil > 80 ? 'metric-good' : cpuUtil > 50 ? 'metric-ok' : 'metric-low'}
         />
-        
+
         <MetricCard
           label="Throughput"
           value={metrics.throughput}
@@ -190,14 +185,14 @@ function MetricsDashboard({ metrics, processes, completedProcesses, recentComple
           description="Completion rate"
           color="metric-throughput"
         />
-        
+
         <MetricCard
           label="Context Switches"
           value={metrics.contextSwitches}
           description="CPU state changes"
           color="metric-switches"
         />
-        
+
         <MetricCard
           label="Response Time"
           value={metrics.avgResponseTime}
@@ -206,7 +201,7 @@ function MetricsDashboard({ metrics, processes, completedProcesses, recentComple
           color="metric-response"
         />
       </section>
-      
+
       {/* CPU Utilization Gauge */}
       <section className="utilization-gauge">
         <h3>CPU Utilization</h3>
@@ -243,7 +238,7 @@ function MetricsDashboard({ metrics, processes, completedProcesses, recentComple
           <div className="gauge-value">{cpuUtil.toFixed(1)}%</div>
         </div>
       </section>
-      
+
       {/* Process Overview Table */}
       <section className="process-overview">
         <h3>
@@ -252,10 +247,10 @@ function MetricsDashboard({ metrics, processes, completedProcesses, recentComple
         </h3>
         <ProcessTable processes={processes} />
       </section>
-      
+
       {/* Completion Log */}
       <CompletionLog completions={recentCompletions} />
-      
+
       {/* Legend */}
       <section className="state-legend">
         <h4>State Colors</h4>
