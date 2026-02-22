@@ -1,4 +1,5 @@
 
+
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ProcessBlock from './ProcessBlock';
@@ -14,21 +15,19 @@ import ProcessBlock from './ProcessBlock';
  * @param {number} props.quantumRemaining - Time remaining in current quantum
  * @param {string} props.algorithm - Current scheduling algorithm
  */
-function CPUVisualizer({ 
-  runningProcess, 
+function CPUVisualizer({
+  runningProcess,
   isContextSwitching,
   quantumRemaining,
-  algorithm 
+  algorithm
 }) {
   const isActive = !!runningProcess;
   const isIdle = !runningProcess && !isContextSwitching;
-  
+
   return (
     <div className="cpu-visualizer">
       <div className="cpu-header">
-        <h2>
-          CPU Core
-        </h2>
+        <h2>CPU Core</h2>
         <div className="cpu-meta">
           {quantumRemaining && quantumRemaining !== Infinity && (
             <span className="quantum-display">
@@ -37,7 +36,7 @@ function CPUVisualizer({
           )}
         </div>
       </div>
-      
+
       {/* CPU Chip Visualization */}
       <div className="cpu-container">
         {/* Background circuit pattern */}
@@ -55,24 +54,24 @@ function CPUVisualizer({
             <circle cx="85" cy="85" r="2" fill="currentColor" opacity="0.3" />
           </svg>
         </div>
-        
+
         {/* CPU Core */}
-        <motion.div 
+        <motion.div
           className={`cpu-core ${isActive ? 'active' : ''} ${isIdle ? 'idle' : ''} ${isContextSwitching ? 'switching' : ''}`}
           animate={{
-            boxShadow: isActive 
+            boxShadow: isActive
               ? [
-                  '0 0 30px rgba(34, 197, 94, 0.3), inset 0 0 20px rgba(34, 197, 94, 0.1)',
-                  '0 0 50px rgba(34, 197, 94, 0.5), inset 0 0 30px rgba(34, 197, 94, 0.2)',
-                  '0 0 30px rgba(34, 197, 94, 0.3), inset 0 0 20px rgba(34, 197, 94, 0.1)'
-                ]
+                '0 0 30px rgba(34, 197, 94, 0.3), inset 0 0 20px rgba(34, 197, 94, 0.1)',
+                '0 0 50px rgba(34, 197, 94, 0.5), inset 0 0 30px rgba(34, 197, 94, 0.2)',
+                '0 0 30px rgba(34, 197, 94, 0.3), inset 0 0 20px rgba(34, 197, 94, 0.1)'
+              ]
               : isContextSwitching
-              ? [
+                ? [
                   '0 0 30px rgba(147, 51, 234, 0.5), inset 0 0 20px rgba(147, 51, 234, 0.2)',
                   '0 0 50px rgba(147, 51, 234, 0.7), inset 0 0 30px rgba(147, 51, 234, 0.3)',
                   '0 0 30px rgba(147, 51, 234, 0.5), inset 0 0 20px rgba(147, 51, 234, 0.2)'
                 ]
-              : '0 0 20px rgba(100, 100, 120, 0.2), inset 0 0 10px rgba(100, 100, 120, 0.1)'
+                : '0 0 20px rgba(100, 100, 120, 0.2), inset 0 0 10px rgba(100, 100, 120, 0.1)'
           }}
           transition={{
             duration: isActive ? 1 : isContextSwitching ? 0.3 : 0,
@@ -80,7 +79,7 @@ function CPUVisualizer({
           }}
         >
           {/* Activity indicator ring */}
-          <motion.div 
+          <motion.div
             className="cpu-activity-ring"
             animate={{
               rotate: isActive ? 360 : 0,
@@ -92,10 +91,10 @@ function CPUVisualizer({
             }}
           >
             <svg viewBox="0 0 100 100">
-              <circle 
-                cx="50" cy="50" r="45" 
-                fill="none" 
-                stroke="url(#activityGradient)" 
+              <circle
+                cx="50" cy="50" r="45"
+                fill="none"
+                stroke="url(#activityGradient)"
                 strokeWidth="2"
                 strokeDasharray="20 10"
               />
@@ -108,7 +107,7 @@ function CPUVisualizer({
               </defs>
             </svg>
           </motion.div>
-          
+
           {/* Process display area */}
           <div className="cpu-process-area">
             <AnimatePresence mode="wait">
@@ -120,7 +119,7 @@ function CPUVisualizer({
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.8 }}
                 >
-                  <motion.div 
+                  <motion.div
                     className="switch-spinner"
                     animate={{ rotate: 360 }}
                     transition={{ duration: 0.5, repeat: Infinity, ease: 'linear' }}
@@ -139,7 +138,7 @@ function CPUVisualizer({
                   transition={{ duration: 0.3 }}
                   className="running-process-display"
                 >
-                  <ProcessBlock 
+                  <ProcessBlock
                     process={runningProcess}
                     showDetails={true}
                   />
@@ -152,25 +151,24 @@ function CPUVisualizer({
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                 >
-                  <span className="idle-icon">💤</span>
                   <span className="idle-text">CPU Idle</span>
                   <span className="idle-hint">No processes in ready queue</span>
                 </motion.div>
               )}
             </AnimatePresence>
           </div>
-          
+
           {/* CPU label */}
           <div className="cpu-label">
             <span className="chip-name">SCHEDULER v1.0</span>
           </div>
         </motion.div>
-        
+
         {/* Data flow indicators */}
         <div className="data-flow-indicators">
-          <motion.div 
+          <motion.div
             className="data-arrow left"
-            animate={{ 
+            animate={{
               opacity: isActive ? [0.3, 1, 0.3] : 0.1,
               x: isActive ? [0, -5, 0] : 0
             }}
@@ -178,9 +176,9 @@ function CPUVisualizer({
           >
             →
           </motion.div>
-          <motion.div 
+          <motion.div
             className="data-arrow right"
-            animate={{ 
+            animate={{
               opacity: isActive ? [0.3, 1, 0.3] : 0.1,
               x: isActive ? [0, 5, 0] : 0
             }}
@@ -190,7 +188,7 @@ function CPUVisualizer({
           </motion.div>
         </div>
       </div>
-      
+
       {/* Educational tooltip */}
       <div className="cpu-tooltip">
         {isContextSwitching && (
@@ -199,13 +197,13 @@ function CPUVisualizer({
             animate={{ opacity: 1, y: 0 }}
             className="tooltip-warning"
           >
-            <strong>Context Switch Overhead:</strong> The CPU is saving the old process state 
-            and loading the new one. This takes time and adds to execution overhead!
+            <strong>Context Switch Overhead:</strong> The CPU is saving the old process state
+            and loading the new one. This takes time and adds to execution overhead.
           </motion.p>
         )}
         {isIdle && (
           <p className="tooltip-info">
-            The CPU is waiting for work. Add processes or load a demo to begin.
+            The CPU is waiting for work. Add processes or use Quick Add to begin.
           </p>
         )}
       </div>
