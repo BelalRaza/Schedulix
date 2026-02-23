@@ -1,17 +1,3 @@
-/**
- * ╔═══════════════════════════════════════════════════════════════════════════╗
- * ║                       CONTROL PANEL COMPONENT                             ║
- * ╠═══════════════════════════════════════════════════════════════════════════╣
- * ║ User interface for controlling the simulation.                             ║
- * ║                                                                           ║
- * ║ Features:                                                                  ║
- * ║ - Algorithm selection                                                      ║
- * ║ - Time quantum slider (for Round Robin)                                   ║
- * ║ - Process management (Add, I/O Interrupt, Kill)                           ║
- * ║ - Simulation controls (Play, Pause, Step, Reset)                          ║
- * ║ - Demo scenarios                                                           ║
- * ╚═══════════════════════════════════════════════════════════════════════════╝
- */
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
@@ -20,7 +6,7 @@ import { motion } from 'framer-motion';
  * ControlPanel Component
  * 
  * @param {Object} props
- * @param {Object} props.scheduler - Scheduler hook instance
+ * @param {Object} props.scheduler 
  */
 function ControlPanel({ scheduler }) {
   const [showAddProcess, setShowAddProcess] = useState(false);
@@ -31,7 +17,7 @@ function ControlPanel({ scheduler }) {
     priority: 5
   });
   
-  // Algorithm options with descriptions
+
   const algorithms = [
     { id: 'FCFS', name: 'FCFS', desc: 'First-Come, First-Served' },
     { id: 'SJF', name: 'SJF', desc: 'Shortest Job First' },
@@ -40,13 +26,7 @@ function ControlPanel({ scheduler }) {
     { id: 'MLFQ', name: 'MLFQ', desc: 'Multi-Level Feedback Queue' }
   ];
   
-  // Demo scenarios
-  const demos = [
-    { id: 'convoy', name: 'Convoy Effect', desc: 'Long process blocks short ones' },
-    { id: 'starvation', name: 'Starvation', desc: 'Long process never runs' },
-    { id: 'balanced', name: 'Balanced Load', desc: 'Mixed process sizes' },
-    { id: 'io-bound', name: 'I/O Bound', desc: 'Interactive vs CPU-bound' }
-  ];
+
   
   const handleAddProcess = () => {
     scheduler.addProcess({
@@ -61,12 +41,8 @@ function ControlPanel({ scheduler }) {
   
   return (
     <div className="control-panel">
-      <h2>
-        <span className="panel-icon">🎛️</span>
-        Control Panel
-      </h2>
+      <h2>Control Panel</h2>
       
-      {/* Algorithm Selection */}
       <section className="control-section">
         <h3>Scheduling Algorithm</h3>
         <div className="algorithm-grid">
@@ -85,7 +61,6 @@ function ControlPanel({ scheduler }) {
         </div>
       </section>
       
-      {/* Time Quantum Slider (for Round Robin) */}
       {(scheduler.algorithm === 'RR' || scheduler.algorithm === 'MLFQ') && (
         <motion.section 
           className="control-section"
@@ -112,12 +87,12 @@ function ControlPanel({ scheduler }) {
             </div>
           </div>
           <p className="slider-hint">
-            💡 Lower quantum = more responsive but higher overhead
+            Lower quantum = more responsive but higher overhead
           </p>
         </motion.section>
       )}
       
-      {/* Simulation Speed */}
+
       <section className="control-section">
         <h3>
           Simulation Speed
@@ -140,7 +115,7 @@ function ControlPanel({ scheduler }) {
         </div>
       </section>
       
-      {/* Simulation Controls */}
+
       <section className="control-section">
         <h3>Simulation</h3>
         <div className="sim-controls">
@@ -148,10 +123,9 @@ function ControlPanel({ scheduler }) {
             className="sim-button step"
             onClick={scheduler.step}
             disabled={scheduler.isRunning || scheduler.isComplete}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
           >
-            <span className="btn-icon">⏭️</span>
             Step
           </motion.button>
           
@@ -159,10 +133,9 @@ function ControlPanel({ scheduler }) {
             <motion.button
               className="sim-button pause"
               onClick={scheduler.pause}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
-              <span className="btn-icon">⏸️</span>
               Pause
             </motion.button>
           ) : (
@@ -170,10 +143,9 @@ function ControlPanel({ scheduler }) {
               className="sim-button play"
               onClick={scheduler.play}
               disabled={scheduler.isComplete || !scheduler.hasProcesses}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
-              <span className="btn-icon">▶️</span>
               Play
             </motion.button>
           )}
@@ -182,10 +154,9 @@ function ControlPanel({ scheduler }) {
             className="sim-button reset"
             onClick={scheduler.reset}
             disabled={scheduler.isRunning}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
           >
-            <span className="btn-icon">🔄</span>
             Reset
           </motion.button>
           
@@ -193,16 +164,15 @@ function ControlPanel({ scheduler }) {
             className="sim-button clear"
             onClick={scheduler.clear}
             disabled={scheduler.isRunning}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
           >
-            <span className="btn-icon">🗑️</span>
             Clear
           </motion.button>
         </div>
       </section>
       
-      {/* Process Controls */}
+
       <section className="control-section">
         <h3>Process Management</h3>
         <div className="process-controls">
@@ -212,7 +182,6 @@ function ControlPanel({ scheduler }) {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
-            <span className="btn-icon">➕</span>
             Add Process
           </motion.button>
           
@@ -222,7 +191,6 @@ function ControlPanel({ scheduler }) {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
-            <span className="btn-icon">⚡</span>
             Quick Add
           </motion.button>
           
@@ -233,12 +201,11 @@ function ControlPanel({ scheduler }) {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
-            <span className="btn-icon">💾</span>
             Inject I/O
           </motion.button>
         </div>
         
-        {/* Add Process Form */}
+
         {showAddProcess && (
           <motion.div 
             className="add-process-form"
@@ -296,24 +263,7 @@ function ControlPanel({ scheduler }) {
         )}
       </section>
       
-      {/* Demo Scenarios */}
-      <section className="control-section">
-        <h3>Demo Scenarios</h3>
-        <div className="demo-grid">
-          {demos.map((demo) => (
-            <motion.button
-              key={demo.id}
-              className="demo-button"
-              onClick={() => scheduler.loadDemo(demo.id)}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <span className="demo-name">{demo.name}</span>
-              <span className="demo-desc">{demo.desc}</span>
-            </motion.button>
-          ))}
-        </div>
-      </section>
+
     </div>
   );
 }
