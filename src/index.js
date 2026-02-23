@@ -1,3 +1,8 @@
+/**
+ * Application Entry Point
+ * 
+ * Initializes React and renders the CPU Scheduling Visualizer
+ */
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';

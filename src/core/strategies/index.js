@@ -1,3 +1,9 @@
+/**
+ * Strategy Exports
+ * 
+ * Central export point for all scheduling strategies.
+ * Import strategies from this file for convenience.
+ */
 
 export { SchedulingStrategy } from './SchedulingStrategy';
 export { FCFSStrategy } from './FCFSStrategy';
@@ -5,7 +11,12 @@ export { SJFStrategy } from './SJFStrategy';
 export { RoundRobinStrategy } from './RoundRobinStrategy';
 export { MLFQStrategy } from './MLFQStrategy';
 
-
+/**
+ * Strategy Registry
+ * 
+ * Provides a way to get strategy instances by name.
+ * Useful for UI dropdowns and configuration.
+ */
 export const STRATEGIES = {
   FCFS: {
     name: 'FCFS',
