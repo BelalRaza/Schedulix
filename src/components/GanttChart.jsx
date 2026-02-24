@@ -12,7 +12,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const ROW_HEIGHT = 38;   // px per process row
 const UNIT_WIDTH = 48;   // px per time unit
-const LABEL_WIDTH = 52;  // px for the process label column
 
 function GanttChart({ data, currentTime, processes }) {
   const scrollRef = useRef(null);
