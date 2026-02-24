@@ -81,6 +81,7 @@ function App() {
               processes={scheduler.state.readyQueue}
               algorithm={scheduler.algorithm}
               onKillProcess={scheduler.killProcess}
+              mlfqQuantums={scheduler.mlfqQuantums}
             />
             <WaitingQueue
               processes={scheduler.state.waitingQueue}

@@ -61,7 +61,7 @@ function ControlPanel({ scheduler }) {
         </div>
       </section>
       
-      {(scheduler.algorithm === 'RR' || scheduler.algorithm === 'MLFQ') && (
+      {scheduler.algorithm === 'RR' && (
         <motion.section 
           className="control-section"
           initial={{ opacity: 0, height: 0 }}
@@ -89,6 +89,50 @@ function ControlPanel({ scheduler }) {
           <p className="slider-hint">
             Lower quantum = more responsive but higher overhead
           </p>
+        </motion.section>
+      )}
+
+      {scheduler.algorithm === 'MLFQ' && (
+        <motion.section 
+          className="control-section mlfq-quantum-config"
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: 'auto' }}
+          exit={{ opacity: 0, height: 0 }}
+        >
+          <h3>MLFQ Queue Quantums</h3>
+          <p className="slider-hint">
+            Customize the time quantum for each priority queue
+          </p>
+          {[
+            { level: 0, label: 'Queue 0 (High Priority)', min: 1, max: 10, color: 'high' },
+            { level: 1, label: 'Queue 1 (Medium Priority)', min: 1, max: 20, color: 'medium' },
+            { level: 2, label: 'Queue 2 (Low Priority)', min: 1, max: 30, color: 'low' }
+          ].map((q) => (
+            <div key={q.level} className={`mlfq-slider-row mlfq-slider-${q.color}`}>
+              <div className="mlfq-slider-label">
+                <span className="mlfq-queue-name">{q.label}</span>
+                <span className="mlfq-queue-value">{scheduler.mlfqQuantums[q.level]}</span>
+              </div>
+              <div className="slider-container">
+                <input
+                  type="range"
+                  min={q.min}
+                  max={q.max}
+                  value={scheduler.mlfqQuantums[q.level]}
+                  onChange={(e) => {
+                    const newQuantums = [...scheduler.mlfqQuantums];
+                    newQuantums[q.level] = parseInt(e.target.value);
+                    scheduler.setMLFQQuantums(newQuantums);
+                  }}
+                  className={`quantum-slider mlfq-slider-input`}
+                />
+                <div className="slider-labels">
+                  <span>{q.min}</span>
+                  <span>{q.max}</span>
+                </div>
+              </div>
+            </div>
+          ))}
         </motion.section>
       )}
       

@@ -22,7 +22,26 @@ Watch processes move between the 3 priority queues based on their behavior!`;
     process.queueLevel = 0;
     process.quantumUsed = 0;
   }
+  
+  /**
+   * Update time quantums for each queue level at runtime
+   * Allows users to customize quantum values per priority queue.
+   * 
+   * @param {number[]} quantums - New time quantum values for each queue level
+   */
+  setQuantums(quantums) {
+    if (Array.isArray(quantums) && quantums.length === this.numQueues) {
+      this.quantums = quantums.map(q => Math.max(1, Math.floor(q)));
+      this.timeQuantum = this.quantums[0];
+    }
+  }
 
+  /**
+   * Get time quantum for a process based on its queue level
+   * 
+   * @param {Process} process - The process
+   * @returns {number} - Time quantum for this process
+   */
   getQuantum(process) {
     const level = process.queueLevel || 0;
     return this.quantums[Math.min(level, this.quantums.length - 1)];

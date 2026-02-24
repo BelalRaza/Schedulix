@@ -11,14 +11,15 @@ import ProcessBlock from './ProcessBlock';
  * @param {string} props.algorithm - Current scheduling algorithm
  * @param {Function} props.onKillProcess - Callback to kill a process
  */
-function ReadyQueue({ processes, algorithm, onKillProcess }) {
+function ReadyQueue({ processes, algorithm, onKillProcess, mlfqQuantums }) {
   const isMLFQ = algorithm === 'MLFQ';
+  const quantums = mlfqQuantums || [4, 8, 16];
 
   // For MLFQ, group processes by queue level
   const queueLevels = isMLFQ ? [
-    { level: 0, label: 'Queue 0 (High Priority)', quantum: 4 },
-    { level: 1, label: 'Queue 1 (Medium Priority)', quantum: 8 },
-    { level: 2, label: 'Queue 2 (Low Priority)', quantum: 16 }
+    { level: 0, label: 'Queue 0 (High Priority)', quantum: quantums[0] },
+    { level: 1, label: 'Queue 1 (Medium Priority)', quantum: quantums[1] },
+    { level: 2, label: 'Queue 2 (Low Priority)', quantum: quantums[2] }
   ] : null;
 
   const getProcessesForLevel = (level) => {
