@@ -41,6 +41,9 @@ export function useScheduler() {
   // Time quantum for Round Robin (controlled by slider)
   const [timeQuantum, setTimeQuantumState] = useState(4);
   
+  // MLFQ per-queue quantums (controlled by 3 sliders)
+  const [mlfqQuantums, setMLFQQuantumsState] = useState([4, 8, 16]);
+  
   // Simulation speed (ms between steps)
   const [speed, setSpeed] = useState(500);
   
@@ -106,7 +109,7 @@ export function useScheduler() {
         strategy = new RoundRobinStrategy(timeQuantum);
         break;
       case 'MLFQ':
-        strategy = new MLFQStrategy();
+        strategy = new MLFQStrategy(3, mlfqQuantums);
         break;
       default:
         strategy = new FCFSStrategy();
@@ -115,7 +118,20 @@ export function useScheduler() {
     scheduler.setStrategy(strategy);
     setAlgorithmState(algorithmName);
     setState(scheduler.getState());
-  }, [timeQuantum]);
+  }, [timeQuantum, mlfqQuantums]);
+  
+  /**
+   * Update MLFQ per-queue quantums
+   */
+  const setMLFQQuantums = useCallback((quantums) => {
+    const scheduler = schedulerRef.current;
+    setMLFQQuantumsState(quantums);
+    
+    if (scheduler.strategy && scheduler.strategy.setQuantums) {
+      scheduler.strategy.setQuantums(quantums);
+      setState(scheduler.getState());
+    }
+  }, []);
   
   /**
    * Update time quantum (for Round Robin)
@@ -349,6 +365,8 @@ export function useScheduler() {
     setAlgorithm,
     setTimeQuantum,
     setSpeed,
+    mlfqQuantums,
+    setMLFQQuantums,
     
     // Process controls
     addProcess,
